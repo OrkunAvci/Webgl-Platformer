@@ -28,8 +28,6 @@ var fragmentShaderText = `
 `
 
 var Init = function () {
-	console.log("This is working");
-
 	var canvas = document.getElementById("game-surface");
 	var gl = canvas.getContext("webgl");
 
