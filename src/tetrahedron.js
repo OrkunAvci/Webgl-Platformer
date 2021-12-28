@@ -23,33 +23,8 @@ void main(void) {
 }
 `;
 
-let posOffsetVec = new Float32Array(3);
-function keyPress(event) {
-	if (event.key == "w") {
-		console.log("W");
-		posOffsetVec[2] += 1.0;
-	} else if (event.key == "s") {
-		console.log("S");
-		posOffsetVec[2] -= 1.0;
-	} else if (event.key == "d") {
-		console.log("D");
-		posOffsetVec[0] -= 1.0;
-	} else if (event.key == "a") {
-		console.log("A");
-		posOffsetVec[0] += 1.0;
-	} else if (event.key == "e") {
-		console.log("E");
-		posOffsetVec[1] += 1.0;
-	} else if (event.key == "f") {
-		console.log("F");
-		posOffsetVec[1] -= 1.0;
-	}
-}
-
 var gl;
-
 var angleUniformLoc;
-
 function Init() {
 	gl = document.getElementById("game-surface").getContext("webgl");
 
@@ -98,8 +73,6 @@ function Init() {
 	gl.vertexAttribPointer(vertexColorAttrLoc, 3, gl.FLOAT, false, 0, 0);
 
 	gl.enable(gl.CULL_FACE);
-
-	document.addEventListener("keyup", keyPress, false);
 
 	draw();
 }
