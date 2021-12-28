@@ -136,15 +136,13 @@ var Init = function () {
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 	gl.vertexAttribPointer(vertexColorAttrLoc, 3, gl.FLOAT, false, 0, 0);
 
-	gl.enable(gl.CULL_FACE);
-
-	var vertexPositionAttrLoc = gl.getAttribLocation(program, "vertPosition");
+	var vertexPositionAttrLoc = gl.getAttribLocation(program, "vertexPosition");
 	gl.enableVertexAttribArray(vertexPositionAttrLoc);
-	var vertexColorAttrLoc = gl.getAttribLocation(program, "vertTexCoord");
+	var vertexColorAttrLoc = gl.getAttribLocation(program, "vertexColor");
 	gl.enableVertexAttribArray(vertexColorAttrLoc);
 
 	gl.vertexAttribPointer(
-		positionAttribLocation, // Attribute location
+		vertexPositionAttrLoc, // Attribute location
 		3, // Number of elements per attribute
 		gl.FLOAT, // Type of elements
 		gl.FALSE,
@@ -152,35 +150,16 @@ var Init = function () {
 		0 // Offset from the beginning of a single vertex to this attribute
 	);
 	gl.vertexAttribPointer(
-		texCoordAttribLocation, // Attribute location
-		2, // Number of elements per attribute
+		vertexColorAttrLoc, // Attribute location
+		3, // Number of elements per attribute
 		gl.FLOAT, // Type of elements
 		gl.FALSE,
 		5 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
 		3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
 	);
 
-	gl.enableVertexAttribArray(positionAttribLocation);
-	gl.enableVertexAttribArray(texCoordAttribLocation);
-
-	//
-	// Create texture
-	//
-	let boxTexture = gl.createTexture();
-	gl.bindTexture(gl.TEXTURE_2D, boxTexture);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-	gl.texImage2D(
-		gl.TEXTURE_2D,
-		0,
-		gl.RGBA,
-		gl.RGBA,
-		gl.UNSIGNED_BYTE,
-		document.getElementById("create-texture")
-	);
-	gl.bindTexture(gl.TEXTURE_2D, null);
+	gl.enableVertexAttribArray(vertexPositionAttrLoc);
+	gl.enableVertexAttribArray(vertexColorAttrLoc);
 
 	// Tell OpenGL state machine which program should be active.
 	gl.useProgram(program);
@@ -216,11 +195,7 @@ var Init = function () {
 	let xRotationMatrix = new Float32Array(16);
 	let yRotationMatrix = new Float32Array(16);
 	let identityMatrix = new Float32Array(16);
-	let xMovementMatrix = new Float32Array(16);
-	let yMovementMatrix = new Float32Array(16);
-	let moveIdentityMatrix = new Float32Array(16);
 	mat4.identity(identityMatrix);
-	mat4.identity(moveIdentityMatrix);
 	let angle = 0;
 	let render = function () {
 		angle = (performance.now() / 1000 / 6) * 2 * Math.PI;
@@ -228,16 +203,12 @@ var Init = function () {
 		mat4.rotate(xRotationMatrix, identityMatrix, 0, [1, 0, 0]);
 		mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
 		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
-		//gl.uniform3fv(objPositionOffsetLocation, gl.FALSE, posOffsetVec);
 		gl.uniform3fv(objPositionOffsetLocation, posOffsetVec);
 
 		gl.clearColor(0.12, 0.12, 0.12, 1.0);
 		gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 
-		gl.bindTexture(gl.TEXTURE_2D, boxTexture);
-		gl.activeTexture(gl.TEXTURE0);
-
-		gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+		gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 
 		requestAnimationFrame(render);
 	};
