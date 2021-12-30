@@ -116,14 +116,22 @@ var Init = function () {
 	var vertexPositionBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
 	var vertices = [
-		0.0, 1.0, -0.5, -1.0, -0.5, -0.5, 1.0, -0.5, -0.5, 0.0, 0.0, 1.0,
+		0.0, 1.0, -0.5,		0, 0, 0,
+		-1.0, -0.5, -0.5,	0, 0, 0,
+		1.0, -0.5, -0.5,	0, 0, 0,
+		0.0, 0.0, 1.0,		0, 0, 0
 	];
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 	gl.vertexAttribPointer(vertexPositionAttrLoc, 3, gl.FLOAT, false, 0, 0);
 
 	var indexBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-	var indices = [0, 1, 2, 0, 2, 3, 0, 3, 1, 2, 1, 3];
+	var indices = [
+		0, 1, 2,
+		0, 2, 3,
+		0, 3, 1, 
+		0, 1, 3
+	];
 	gl.bufferData(
 		gl.ELEMENT_ARRAY_BUFFER,
 		new Uint8Array(indices),
