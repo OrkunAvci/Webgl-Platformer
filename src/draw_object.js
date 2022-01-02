@@ -62,7 +62,7 @@ let draw = function(gl, obj)
 	let viewMatrix = new Float32Array(16);
 	let projMatrix = new Float32Array(16);
 	mat4.identity(worldMatrix);
-	mat4.lookAt(viewMatrix, [-25, 20, -25], [0, 0, 0], [0, 1, 0]);
+	mat4.lookAt(viewMatrix, [-25, 35, -30], [0, 0, 0], [0, 1, 0]);
 	mat4.perspective(
 		projMatrix,
 		glMatrix.toRadian(45),
