@@ -39,10 +39,14 @@ var Init = function () {
 
 	let createLoc = gl.getUniformLocation(program, "create");
 	let wallLoc = gl.getUniformLocation(program, "wall");
+	let woodLoc = gl.getUniformLocation(program, "wood");
+	let whiteLoc = gl.getUniformLocation(program, "white");
 	
 	
 	gl.uniform1i(createLoc, 0);
 	gl.uniform1i(wallLoc, 1);
+	gl.uniform1i(woodLoc, 2);
+	gl.uniform1i(whiteLoc, 3);
 
 	//	Define actions
 	document.addEventListener("keyup", move, false);

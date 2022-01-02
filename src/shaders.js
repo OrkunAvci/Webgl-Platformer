@@ -25,12 +25,16 @@ let fragmentShaderMove = `
 	varying vec2 fragTexCoord;
 	uniform sampler2D create;
 	uniform sampler2D wall;
+	uniform sampler2D wood;
+	uniform sampler2D white;
 	
 	void main()
 	{
 		vec4 create_c = texture2D(create, fragTexCoord);
 		vec4 wall_c = texture2D(wall, fragTexCoord);
-		gl_FragColor = create_c * wall_c;
+		vec4 wood_c = texture2D(wood, fragTexCoord);
+		vec4 white_c = texture2D(white, fragTexCoord);
+		gl_FragColor = create_c * wall_c * wood_c * white_c;
 	}
 `
 
