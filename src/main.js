@@ -31,37 +31,41 @@ var Init = function () {
 
 	gl.useProgram(program);
 
-	objects.forEach(obj => draw(gl, obj));
+	for (i=0; i<objects.length; i++)
+	{
+		draw(gl, objects[i]);
+		gl.useProgram(program);
+		textures[i] = make_texture(gl, texture_ids[i]);
+	}
 
-	texture_ids.forEach(id => {
-		textures.push(make_texture(gl, id));
-	})
-
+	//	Set texture uniforms
 	let createLoc = gl.getUniformLocation(program, "create");
-	let wallLoc = gl.getUniformLocation(program, "wall");
-	let woodLoc = gl.getUniformLocation(program, "wood");
 	let whiteLoc = gl.getUniformLocation(program, "white");
-	
+	let woodLoc = gl.getUniformLocation(program, "wood");
+	let wallLoc = gl.getUniformLocation(program, "wall");
 	
 	gl.uniform1i(createLoc, 0);
-	gl.uniform1i(wallLoc, 1);
+	gl.uniform1i(whiteLoc, 1);
 	gl.uniform1i(woodLoc, 2);
-	gl.uniform1i(whiteLoc, 3);
-
+	gl.uniform1i(wallLoc, 3);
+	
 	//	Define actions
 	document.addEventListener("keyup", move, false);
 
 	// Main render loop
 	let render = function () {
+		gl.useProgram(program);
 
 		//	Reset background
-		gl.clearColor(0.92, 0.92, 0.92, 1.0);
+		gl.clearColor(0.12, 0.12, 0.12, 1.0);
 		gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 
 		for (i=0; i<objects.length; i++)
 		{
 			obj = objects[i];
-			gl.activeTexture(gl.TEXTURE0 + i);
+			gl.useProgram(program);
+			gl.activeTexture(gl.TEXTURE0);
+			//gl.bindTexture(gl.TEXTURE_2D, null);
 			gl.bindTexture(gl.TEXTURE_2D, textures[i]);
 			draw(gl, obj);
 			gl.drawElements(gl.TRIANGLES, obj.indices.length, gl.UNSIGNED_SHORT, 0);

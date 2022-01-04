@@ -7,7 +7,6 @@ let draw = function(gl, obj)
 		obj.program = program;
 	}
 
-	program = obj.program;
 	gl.useProgram(obj.program);
 
 	//	Create object
@@ -53,16 +52,16 @@ let draw = function(gl, obj)
 		gl.uniform3fv(obj.offset_location, obj.offset_vector);
 	}
 
-	let matWorldUniformLocation = gl.getUniformLocation(program, "mWorld");
-	let matViewUniformLocation = gl.getUniformLocation(program, "mView");
-	let matProjUniformLocation = gl.getUniformLocation(program, "mProj");
+	let matWorldUniformLocation = gl.getUniformLocation(obj.program, "mWorld");
+	let matViewUniformLocation = gl.getUniformLocation(obj.program, "mView");
+	let matProjUniformLocation = gl.getUniformLocation(obj.program, "mProj");
 
 	//	Setup camera
 	let worldMatrix = new Float32Array(16);
 	let viewMatrix = new Float32Array(16);
 	let projMatrix = new Float32Array(16);
 	mat4.identity(worldMatrix);
-	mat4.lookAt(viewMatrix, [-25, 35, -30], [0, 0, 0], [0, 1, 0]);
+	mat4.lookAt(viewMatrix, [-30, 33, -30], [0, 0, 0], [0, 1, 0]);
 	mat4.perspective(
 		projMatrix,
 		glMatrix.toRadian(45),
@@ -75,6 +74,5 @@ let draw = function(gl, obj)
 	gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
 	gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, viewMatrix);
 	gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, projMatrix);
-
 
 }

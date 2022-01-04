@@ -1,8 +1,8 @@
 let texture_ids = [
-	"create-texture",
-	"wall-texture",
-	"wood-texture",
-	"white-texture"
+	"create_texture",
+	//"wood_texture",
+	"white_texture",
+	"white_texture"
 ];
 
 let textures = [];
