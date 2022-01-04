@@ -57,7 +57,7 @@ var Init = function () {
 		gl.useProgram(program);
 
 		//	Reset background
-		gl.clearColor(0.12, 0.12, 0.12, 1.0);
+		gl.clearColor(0.32, 0.32, 0.32, 1.0);
 		gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 
 		for (i=0; i<objects.length; i++)
